@@ -1,0 +1,40 @@
+services:
+  stationeers:
+    build:
+      context: .
+
+    container_name: stationeers_server
+    restart: unless-stopped
+
+    ports:
+      - "${PORT_UPDATE}:${PORT_UPDATE}/udp"
+      - "${PORT_UPDATE}:${PORT_UPDATE}/tcp"
+      - "${PORT_GAME}:${PORT_GAME}/udp"
+      - "${PORT_GAME}:${PORT_GAME}/tcp"
+
+    volumes:
+      - "${PATH_INSTALL}:/stationeers"
+      - "${PATH_SAVES}:/stationeers/saves"
+
+    command:
+      [
+        "-file", "start", "${SAVE_NAME}",
+        "${WORLD_ID}", "${DIFFICULTY}", "${CONDITIONS}", "${LOCATION}",
+        "-logFile", "./server.log",
+        "-settings",
+        "StartLocalHost", "true",
+        "ServerName", "${SERVER_NAME}",
+        "ServerPassword", "${SERVER_PASSWORD}",
+        "ServerAuthSecret", "${SERVER_SECRET}",
+        "ServerVisible", "false",
+        "ServerMaxPlayers", "${MAX_PLAYERS}",
+        "LocalIpAddress", "0.0.0.0",
+        "GamePort", "${PORT_GAME}",
+        "UpdatePort", "${PORT_UPDATE}",
+        "UPNPEnabled", "false",
+        "UseSteamP2P", "false",
+        "AutoSave", "true",
+        "SaveInterval", "300",
+        "AutoPauseServer", "true"
+      ]
+
