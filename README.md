@@ -5,9 +5,13 @@ don't need any special software or web GUI to handle it for you. This repo uses
 two simple Docker images to deploy and run the server. You could also easily do
 the same thing without any containers.
 
+Consider this repository as a guide for how to deploy and run any native Linux
+game server using steamcmd and Docker.
+
 ## Preface
 
-This repo assumes you are running in a Linux environment with Docker installed.
+This repo assumes you are running in a Linux environment with Docker installed,
+but the same thing can be achieved without Docker, or on a Windows host.
 
 All commands are expected to be run from the root directory of this repository.
 
@@ -24,9 +28,7 @@ such as `ufw` when binding ports on the host.
 
 The first image is [steamcmd][1], used to deploy and update the application.
 
-The second image is built using the Dockerfile in this repo. It is based on a
-plain Debian image with just a few instructions on top. This is what is used
-to run the server.
+The second is a plain [debian][3] image used to run the server.
 
 # How to use
 
@@ -41,12 +43,12 @@ for the rest.
 3. Run `deploy.sh`
 
 This script uses steamcmd to install the Stationeers server software into the
-`STEAM_INSTALL_PATH` directory that you specified in your `.env` file. You can
-run this script to install the server for the first time, and to update it.
+specified `PATH_INSTALL` directory. You can use this script to install and
+update the Stationeers server.
 
 * You may need to `chmod +x deploy.sh`
 * You will have to run the script as a user who has Docker rights on the system
-* The `STEAM_INSTALL_PATH` directory will be used as a volume mount, you must
+* The `PATH_INSTALL` directory will be used as a volume mount; you must
 have permission to mount this directory.
 
 4. Run `docker compose up`
@@ -67,4 +69,5 @@ to be included in any backups.
 
 [1]: https://hub.docker.com/r/steamcmd/steamcmd
 [2]: https://stationeers-wiki.com/Dedicated_Server_Guide#DIY_Solutions
+[3]: https://hub.docker.com/_/debian
 
